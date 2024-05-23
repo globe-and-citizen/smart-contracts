@@ -1,0 +1,90 @@
+
+
+  AdCampaignManager
+the initial====  0n
+the final====  1
+    ✔ should create a new ad campaign
+    1) should allow the owner to claim payment
+    2) should allow an advertiser to request withdrawal
+    3) should allow the owner to approve withdrawal
+    ✔ should pause and unpause the contract
+    4) should get ad campaign details by campaign code
+
+  Lock
+    Deployment
+      ✔ Should set the right unlockTime
+      ✔ Should set the right owner
+      ✔ Should receive and store the funds to lock
+      ✔ Should fail if the unlockTime is not in the future
+    Withdrawals
+      Validations
+        ✔ Should revert with the right error if called too soon
+        ✔ Should revert with the right error if called from another account
+        ✔ Shouldn't fail if the unlockTime has arrived and the owner calls it
+      Events
+        ✔ Should emit an event on withdrawals
+      Transfers
+        ✔ Should transfer the funds to the owner
+
+
+  11 passing (2s)
+  4 failing
+
+  1) AdCampaignManager
+       should allow the owner to claim payment:
+     TypeError: invalid string value (argument="str", value=0, code=INVALID_ARGUMENT, version=6.12.1)
+      at makeError (node_modules/ethers/src.ts/utils/errors.ts:687:21)
+      at assert (node_modules/ethers/src.ts/utils/errors.ts:715:25)
+      at assertArgument (node_modules/ethers/src.ts/utils/errors.ts:727:5)
+      at toUtf8Bytes (node_modules/ethers/src.ts/utils/utf8.ts:250:19)
+      at StringCoder.encode (node_modules/ethers/src.ts/abi/coders/string.ts:23:48)
+      at /home/achille/Documents/project/global & cityzens/contracts/node_modules/ethers/src.ts/abi/coders/array.ts:55:19
+      at Array.forEach (<anonymous>)
+      at pack (node_modules/ethers/src.ts/abi/coders/array.ts:47:12)
+      at TupleCoder.encode (node_modules/ethers/src.ts/abi/coders/tuple.ts:62:20)
+      at AbiCoder.encode (node_modules/ethers/src.ts/abi/abi-coder.ts:195:15)
+
+  2) AdCampaignManager
+       should allow an advertiser to request withdrawal:
+     TypeError: invalid string value (argument="str", value=0, code=INVALID_ARGUMENT, version=6.12.1)
+      at makeError (node_modules/ethers/src.ts/utils/errors.ts:687:21)
+      at assert (node_modules/ethers/src.ts/utils/errors.ts:715:25)
+      at assertArgument (node_modules/ethers/src.ts/utils/errors.ts:727:5)
+      at toUtf8Bytes (node_modules/ethers/src.ts/utils/utf8.ts:250:19)
+      at StringCoder.encode (node_modules/ethers/src.ts/abi/coders/string.ts:23:48)
+      at /home/achille/Documents/project/global & cityzens/contracts/node_modules/ethers/src.ts/abi/coders/array.ts:55:19
+      at Array.forEach (<anonymous>)
+      at pack (node_modules/ethers/src.ts/abi/coders/array.ts:47:12)
+      at TupleCoder.encode (node_modules/ethers/src.ts/abi/coders/tuple.ts:62:20)
+      at AbiCoder.encode (node_modules/ethers/src.ts/abi/abi-coder.ts:195:15)
+
+  3) AdCampaignManager
+       should allow the owner to approve withdrawal:
+     TypeError: invalid string value (argument="str", value=0, code=INVALID_ARGUMENT, version=6.12.1)
+      at makeError (node_modules/ethers/src.ts/utils/errors.ts:687:21)
+      at assert (node_modules/ethers/src.ts/utils/errors.ts:715:25)
+      at assertArgument (node_modules/ethers/src.ts/utils/errors.ts:727:5)
+      at toUtf8Bytes (node_modules/ethers/src.ts/utils/utf8.ts:250:19)
+      at StringCoder.encode (node_modules/ethers/src.ts/abi/coders/string.ts:23:48)
+      at /home/achille/Documents/project/global & cityzens/contracts/node_modules/ethers/src.ts/abi/coders/array.ts:55:19
+      at Array.forEach (<anonymous>)
+      at pack (node_modules/ethers/src.ts/abi/coders/array.ts:47:12)
+      at TupleCoder.encode (node_modules/ethers/src.ts/abi/coders/tuple.ts:62:20)
+      at AbiCoder.encode (node_modules/ethers/src.ts/abi/abi-coder.ts:195:15)
+
+  4) AdCampaignManager
+       should get ad campaign details by campaign code:
+     TypeError: invalid string value (argument="str", value=0, code=INVALID_ARGUMENT, version=6.12.1)
+      at makeError (node_modules/ethers/src.ts/utils/errors.ts:687:21)
+      at assert (node_modules/ethers/src.ts/utils/errors.ts:715:25)
+      at assertArgument (node_modules/ethers/src.ts/utils/errors.ts:727:5)
+      at toUtf8Bytes (node_modules/ethers/src.ts/utils/utf8.ts:250:19)
+      at StringCoder.encode (node_modules/ethers/src.ts/abi/coders/string.ts:23:48)
+      at /home/achille/Documents/project/global & cityzens/contracts/node_modules/ethers/src.ts/abi/coders/array.ts:55:19
+      at Array.forEach (<anonymous>)
+      at pack (node_modules/ethers/src.ts/abi/coders/array.ts:47:12)
+      at TupleCoder.encode (node_modules/ethers/src.ts/abi/coders/tuple.ts:62:20)
+      at AbiCoder.encode (node_modules/ethers/src.ts/abi/abi-coder.ts:195:15)
+
+
+
