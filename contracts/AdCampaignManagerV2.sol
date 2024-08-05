@@ -12,11 +12,11 @@ import "@openzeppelin/contracts/utils/Strings.sol";
      
 **/
 
-contract AdCampaignManager is Ownable(msg.sender), Pausable, ReentrancyGuard {
+contract AdCampaignManagerV2 is Ownable(msg.sender), Pausable, ReentrancyGuard {
     
     using Strings for uint256;
 
-    enum CampaignStatus { Active, Completed }
+    enum CampaignStatus { Active, WithdrawalRequested, Completed }
 
     struct AdCampaign {
         uint256 budget;
@@ -32,6 +32,7 @@ contract AdCampaignManager is Ownable(msg.sender), Pausable, ReentrancyGuard {
 
     event AdCampaignCreated(string campaignCode,uint256 budget);
     event PaymentReleased(string campaignCode, uint256 paymentAmount);
+    event WithdrawalRequested(string campaignCode);
     event BudgetWithdrawn(string campaignCode,address advertiser, uint256 amount);
     event PaymentReleasedOnWithdrawApproval(string campaignCode, uint256 paymentAmount);
 
@@ -103,7 +104,44 @@ contract AdCampaignManager is Ownable(msg.sender), Pausable, ReentrancyGuard {
         emit BudgetWithdrawn(campaignCode, campaign.advertiser, remainingBudget);
         emit PaymentReleasedOnWithdrawApproval(campaignCode, possibleClaimedAmount);
     }
- 
+
+    // Advertiser requests to withdraw the remaining budget
+    function requestWithdrawal(string memory campaignCode) external nonReentrant {
+        uint256 campaignId = campaignCodesToId[campaignCode];
+        require(campaignId > 0, "Invalid campaign code");
+        AdCampaign storage campaign = adCampaigns[campaignId];
+        require(campaign.status == CampaignStatus.Active, "Campaign is not active");
+        
+        require(msg.sender == campaign.advertiser, "Only the advertiser can request withdrawal");
+
+        campaign.status = CampaignStatus.WithdrawalRequested;
+        emit WithdrawalRequested(campaignCode);
+    }
+
+    // Contract owner approves the withdrawal and funds are immediately sent to the advertiser
+    function approveWithdrawal(string memory campaignCode, uint256 currentAmountSpent) external onlyOwner nonReentrant {
+        uint256 campaignId = campaignCodesToId[campaignCode];
+        require(campaignId > 0, "Invalid campaign code");
+        AdCampaign storage campaign = adCampaigns[campaignId];
+        require(campaign.status == CampaignStatus.WithdrawalRequested, "Withdrawal not requested");
+        require(currentAmountSpent <= campaign.budget, "Budget exceeded");
+
+        campaign.amountSpent = currentAmountSpent;
+        uint256 remainingBudget = campaign.budget- currentAmountSpent;
+
+        campaign.status = CampaignStatus.Completed;
+        if (remainingBudget > 0) {
+            payable(campaign.advertiser).transfer(remainingBudget);
+        }
+        payable(owner()).transfer(currentAmountSpent);
+
+        emit BudgetWithdrawn(campaignCode,campaign.advertiser, remainingBudget);
+
+        emit PaymentReleasedOnWithdrawApproval(campaignCode, currentAmountSpent);
+    }
+
+    
+
     // Pause contract in case of emergency
     function pause() external onlyOwner {
         _pause();

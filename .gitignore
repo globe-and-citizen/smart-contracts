@@ -17,4 +17,7 @@ node_modules
 ignition/deployments/chain-31337
 .env
 contracts/Lock.sol
-scripts/Lock.js
+scripts
+test
+hardhat.config.js
+scripts/deploy.js
